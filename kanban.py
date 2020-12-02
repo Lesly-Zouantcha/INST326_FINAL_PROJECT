@@ -136,53 +136,65 @@ class Kanban:
            Changes the value in the csv file 
         """
         with open('kanban_board.cvs', mode = 'w') as kanban_csv: 
-            fields = ['task_id', 'description, 'due_date']
+            fields = ['to do', 'in progress',"done"]
             writer = csv.DictWriter(kanban_csv, fieldnames = fields) 
             writer.writeheader()
-            for key in board:
-                writer.writerows(board)
+            writer.writerows(board)
                 
      #Ask professor how to loop through each task and make their own row
                      
 # USER INTERFACE
-
-print("Welcome to the kanban board! Lets begin!")
-
-task_input = str(input("Do you have a task to add to your board? Yes or No. (If you want to add a task using a csv enter 'csv') ")).lower
-
-if task_input == 'csv':
-    user_filname = str(input("Enter the csv filename "))
-    Kanban.read_csv(user_filename)
-    
-tasks = []
-while task_input != 'no':
-    user_task_id = int(input("Enter the task id "))
-    user_description = str(input("Enter the task description "))
-    user_due_date = str(input("Enter the task due date "))
-    tasks.append(Task(user_task_id, user_description, user_due_date))
-    task_input = str(input("Do you have another task to add to your board? Yes or No ")).lower
-        
-user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
-
-while user_input != 'done':
-    if user_input == "edit task":
-        Task.edit_task(task_id, new_description, new_due_date)
-        user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
-        
-    elif user_input == "move task":
-        Kanban.colm_movements(task_id, move_to)
-        user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
-        
-    elif user_input == "display board":
-        Kanban.display_board()
-        user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
-        
-    elif user_input == "clear board":
-        Kanban.clear_board()   
-        user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
-        
 def main():
+    """
+    """
+    print("Welcome to the kanban board! Lets begin!")
 
+    task_input = str(input("Do you have a task to add to your board? Yes or No. (If you want to add a task using a csv enter 'csv') ")).lower
+
+    if task_input == 'csv':
+        user_filname = str(input("Enter the csv filename "))
+        Kanban.read_csv(user_filename)
+        
+    tasks = []
+    while task_input != 'no':
+        user_task_id = int(input("Enter the task id "))
+        user_description = str(input("Enter the task description "))
+        user_due_date = str(input("Enter the task due date "))
+        tasks.append(Task(user_task_id, user_description, user_due_date))
+        print(tasks)
+        task_input = str(input("Do you have another task to add to your board? Yes or No ")).lower
+            
+    user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, display board to csv, clear board, done ")).lower()
+
+    while user_input != 'done':
+        if user_input == "edit task":
+            edit_task_id = int(input("Enter the task id you want to edit "))
+            edit_description = str(input("Enter your edited description "))
+            edit_due_date = str(input("Enter your edited due date "))
+            Task.edit_task(edit_task_id, edit_description, edit_due_date)
+            user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
+            
+        elif user_input == "move task":
+            move_task_id = int(input("Enter the task id you want to move "))
+            edit_movement = str(input("Enter the column you want to move the task to "))
+            Kanban.colm_movements(move_task_id, edit_movement)
+            user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
+            
+        elif user_input == "display board":
+            Kanban.display_board()
+            user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
+            
+        elif user_input == "display board to csv":
+            Kanban.write_csv()
+            user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
+            
+        elif user_input == "clear board":
+            Kanban.clear_board()   
+            user_input = str(input("What would you like to do next with your board? Options: edit task, move task, display board, clear board, done ")).lower()
+  
+if __name__ == '__main__':
+    main()
+    
 #Need to create a main functionn so that our user interface works
 #Need to fix the user interfce #Add write csv as one of the options #Add use input for other parameters
 #Need to finish the write csv dictionary
