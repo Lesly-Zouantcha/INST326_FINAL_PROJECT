@@ -19,7 +19,7 @@ class Task:
         self.due_date = due_date
         self.task = {self.task_id: [self.description, self.due_date]}
         
-    def edit_task(self,task_id, new_description, new_due_date):
+    def edit_task(self,task_id, new_description, new_due_date):  #NEED HELP. This task throws error that we are missing a parameter
         """Edits a specific task
         Args:
             task_id(int): id of task 
@@ -80,8 +80,8 @@ class Kanban:
                       
         
     def add_work_item(self):
-        """This method will be for implementing the work items that will be r
-        equired by a boss in the to do column
+        """This method will be for implementing the work items that will be 
+        required by a boss in the to do column
         Side Effects:
            Adds content from the list of tasks into the to do column
            Returns the list
@@ -90,7 +90,7 @@ class Kanban:
            self.to_do.append(i)
         return self.to_do
 
-    def colm_movements(self,task_id, move_to):
+    def colm_movements(self,task_id, move_to):    #NEED HELP. This method does not recognize what "task" is 
         """This method will move tasks from one comlumn to the other
         Args:
           task_id(int): id of task
@@ -100,12 +100,12 @@ class Kanban:
           Adds tasks to a list
         """
         if move_to.lower() == "in progress":
-            self.in_progress.append(self.task[task_id])
-            self.to_do.remove(self.task[task_id])
+            self.in_progress.append(task[task_id])
+            self.to_do.remove(task[task_id])
             
         if move_to.lower() == "done":
-            self.done.append(self.task[task_id])
-            self.in_progress.remove(self.task[task_id])
+            self.done.append(task[task_id])
+            self.in_progress.remove(task[task_id])
             
 
     def clear_board(self):
@@ -126,8 +126,8 @@ class Kanban:
         """Display the board in a dictionary with the key values “Backlog”, 
         “To-do”, “ “In Progress”, and “Done””
         Side Effects: 
-            Print out Dictionary: keys will be backlog, to-do, in-progress, and done. The 
-            tasks are the values in the dictionary where they are on the board.
+            Print out Dictionary: keys will be backlog, to-do, in-progress, and done. 
+            The tasks are the values in the dictionary where they are on the board.
         """
         board = {"to do": self.to_do, "in progress": self.in_progress, "done": self.done}
         
@@ -168,9 +168,12 @@ def main():
         tasks.append(Task(user_task_id, user_description, user_due_date))
         print(tasks)
         task_input = str(input("Do you have another task to add to your board? Yes or No ")).lower()
-            
+    
+    kanban.add_work_item(tasks)        
+    
     user_input = str(input("What would you like to do next with your board? " 
-                           "Options: edit task, move task, display board, display board to csv, clear board, done ")).lower()
+                           "Options: edit task, move task, display board, "
+                           "display board to csv, clear board, done ")).lower()
 
     while user_input != 'done':
         if user_input == "edit task":
@@ -179,35 +182,41 @@ def main():
             edit_due_date = str(input("Enter your edited due date "))
             Task.edit_task(edit_task_id, edit_description, edit_due_date)
             user_input = str(input("What would you like to do next with your board?"
-                                   "Options: edit task, move task, display board, clear board, done ")).lower()
+                                   "Options: edit task, move task, display board, "
+                                   "clear board, done ")).lower()
             
         elif user_input == "move task":
             move_task_id = int(input("Enter the task id you want to move "))
             edit_movement = str(input("Enter the column you want to move the task to "))
             kanban.colm_movements(move_task_id, edit_movement)
             user_input = str(input("What would you like to do next with your board? "
-                                    "Options: edit task, move task, display board, clear board, done ")).lower()
+                                    "Options: edit task, move task, display board, "
+                                    "clear board, done ")).lower()
             
         elif user_input == "display board":
             kanban.display_board()
             user_input = str(input("What would you like to do next with your board? "
-                                   "Options: edit task, move task, display board, clear board, done ")).lower()
+                                   "Options: edit task, move task, display board, "
+                                   "clear board, done ")).lower()
             
         elif user_input == "display board to csv":
             kanban.write_csv()
             user_input = str(input("What would you like to do next with your board? "
-                                   "Options: edit task, move task, display board, clear board, done ")).lower()
+                                   "Options: edit task, move task, display board,"
+                                    "clear board, done ")).lower()
             
         elif user_input == "clear board":
             kanban.clear_board()   
             user_input = str(input("What would you like to do next with your board? "
-                                   "Options: edit task, move task, display board, clear board, done ")).lower()
+                                   "Options: edit task, move task, display board,"
+                                   " clear board, done ")).lower()
   
 if __name__ == '__main__':
     main()
     
     
-#Need to create a main functionn so that our user interface works
-#Need to fix the user interfce #Add write csv as one of the options #Add use input for other parameters
-#Need to finish the write csv dictionary
+#Need to fix edit task method, move task method, and display board to csv method
+#Need to write file of tasks to uplaod
+#Make display prettier and more user friendly
+#Create a test script
     
