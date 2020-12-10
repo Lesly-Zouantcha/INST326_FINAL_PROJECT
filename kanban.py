@@ -62,7 +62,7 @@ class Kanban:
         self.in_progress = []
         self.done = []
         
-    def read_csv(self, filename):
+    def read_file(self, filename):
         """reads tasks from a file, parses them  and adds them to kanban board
         Args:
           filename(str): name of file with tasks
@@ -116,11 +116,14 @@ class Kanban:
         """
         
         for i in self.to_do:
-            del i
+            self.to_do.remove(i)
+            return self.to_do
         for i in self.in_progress:
-            del i
+            self.in_progress.remove(i)
+            return self.in_progress
         for i in self.done:
-            del i
+            self.done.remove(i)
+            return self.done
 
     def display_board(self):
         """Display the board in a dictionary with the key values “Backlog”, 
@@ -133,18 +136,6 @@ class Kanban:
         
         print(board)
         
-    def write_csv(self):
-        """Displays the final board to a csv file
-        Side Effects:
-           Changes the value in the csv file 
-        """
-        with open('kanban_board.cvs', mode = 'w') as kanban_csv: 
-            fields = ['to do', 'in progress',"done"]
-            writer = csv.DictWriter(kanban_csv, fieldnames = fields) 
-            writer.writeheader()
-            writer.writerows(board)
-                
-     #Ask professor how to loop through each task and make their own row
                      
 # USER INTERFACE
 def main():
@@ -154,14 +145,14 @@ def main():
     print("Welcome to the kanban board! Lets begin!")
 
     task_input = str(input("Do you have a task to add to your board? Yes or No. "
-                           "(If you want to add a task using a csv enter 'csv') ")).lower()
+                           "(If you want to add a task using a file enter 'file') ")).lower()
     
-    if task_input == 'csv':
-        user_filname = str(input("Enter the csv filename "))
+    if task_input == 'file':
+        user_filname = str(input("Enter the file name "))
         Kanban.read_csv(user_filename)
          
     tasks = []
-    while task_input not in ["no", "csv"]:
+    while task_input not in ["no", "file"]:
         user_task_id = int(input("Enter the task id "))
         user_description = str(input("Enter the task description "))
         user_due_date = str(input("Enter the task due date "))
@@ -180,7 +171,7 @@ def main():
             edit_task_id = int(input("Enter the task id you want to edit "))
             edit_description = str(input("Enter your edited description "))
             edit_due_date = str(input("Enter your edited due date "))
-            Task.edit_task(edit_task_id, edit_description, edit_due_date)
+            Task(task_id_2, edit_description, edit_due_date).edit_task(task_id_2, edit_description, edit_due_date)
             user_input = str(input("What would you like to do next with your board?"
                                    "Options: edit task, move task, display board, "
                                    "clear board, done ")).lower()
@@ -198,12 +189,6 @@ def main():
             user_input = str(input("What would you like to do next with your board? "
                                    "Options: edit task, move task, display board, "
                                    "clear board, done ")).lower()
-            
-        elif user_input == "display board to csv":
-            kanban.write_csv()
-            user_input = str(input("What would you like to do next with your board? "
-                                   "Options: edit task, move task, display board,"
-                                    "clear board, done ")).lower()
             
         elif user_input == "clear board":
             kanban.clear_board()   
