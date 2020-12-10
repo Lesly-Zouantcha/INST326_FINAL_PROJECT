@@ -19,7 +19,7 @@ class Task:
         self.due_date = due_date
         self.task = {self.task_id: [self.description, self.due_date]}
         
-    def edit_task(self,task_id, new_description, new_due_date):  #NEED HELP. This task throws error that we are missing a parameter
+    def edit_task(self, task_id, new_description, new_due_date):  
         """Edits a specific task
         Args:
             task_id(int): id of task 
@@ -29,6 +29,9 @@ class Task:
             Changes the input statement 
         """
         self.task[task_id] = [new_description, new_due_date]
+        self.description = new_description
+        self.due_date = new_due_date
+        return self.task
                                   
     def __str__(self):
         """This returns the task 
@@ -90,7 +93,7 @@ class Kanban:
            self.to_do.append(i)
         return self.to_do
 
-    def colm_movements(self,task_id, move_to):    #NEED HELP. This method does not recognize what "task" is 
+    def colm_movements(self, task_id, move_to):    #NEED HELP. This method does not recognize what "task" is #fix docstrings 
         """This method will move tasks from one comlumn to the other
         Args:
           task_id(int): id of task
@@ -99,13 +102,36 @@ class Kanban:
           Deletes tasks from a list
           Adds tasks to a list
         """
+        found_task = None  
+
+        try:
+            task_index = self.to_do.index(task_id)
+            found_task = self.to_do[task_index]
+            self.to_do.remove(found_task)
+        except:
+            pass 
+        try:    
+            task_index = self.in_progress.index(task_id)
+            found_task = self.in_progress[task_index]
+            self.in_progress.remove(found_task)
+        except:
+            pass 
+        try:
+            task_index = self.done.index(task_id)
+            found_task = self.done[task_index]
+            self.done.remove(found_task)
+        except:
+            pass
+
+
+        if move_to.lower() == "to do":
+            self.in_progress.append(found_task)
+
         if move_to.lower() == "in progress":
-            self.in_progress.append(task[task_id])
-            self.to_do.remove(task[task_id])
-            
+            self.in_progress.append(found_task)
+
         if move_to.lower() == "done":
-            self.done.append(task[task_id])
-            self.in_progress.remove(task[task_id])
+            self.done.append(found_task)
             
 
     def clear_board(self):
