@@ -94,6 +94,8 @@ class Kanban:
         return self.to_do
 
     def colm_movements(self, task_id, move_to):    #NEED HELP. This method does not recognize what "task" is #fix docstrings 
+        #move_task_id, edit_movement
+        #task_id, move_to
         """This method will move tasks from one comlumn to the other
         Args:
           task_id(int): id of task
@@ -103,35 +105,36 @@ class Kanban:
           Adds tasks to a list
         """
         found_task = None  
+        
+     
+        for task in self.to_do:
+            if task.task_id == task_id:
+                found_task = task
+                self.to_do.remove(found_task)
+        
+        if found_task == None: 
+            for task in self.in_progress:
+                if task.task_id == task_id:
+                    found_task = task
+                    self.to_do.remove(found_task)
+        
+        if found_task == None: 
+            for task in self.done:
+                if task.task_id == task_id:
+                    found_task = task
+                    self.to_do.remove(found_task) 
 
-        try:
-            task_index = self.to_do.index(task_id)
-            found_task = self.to_do[task_index]
-            self.to_do.remove(found_task)
-        except:
-            pass 
-        try:    
-            task_index = self.in_progress.index(task_id)
-            found_task = self.in_progress[task_index]
-            self.in_progress.remove(found_task)
-        except:
-            pass 
-        try:
-            task_index = self.done.index(task_id)
-            found_task = self.done[task_index]
-            self.done.remove(found_task)
-        except:
-            pass
-
-
-        if move_to.lower() == "to do":
-            self.in_progress.append(found_task)
-
-        if move_to.lower() == "in progress":
-            self.in_progress.append(found_task)
-
-        if move_to.lower() == "done":
-            self.done.append(found_task)
+                   
+        if found_task != None:
+        
+            if move_to.lower() == "to do":
+                self.to_do.append(found_task)
+        
+            if move_to.lower() == "in progress":
+                self.in_progress.append(found_task)
+            
+            if move_to.lower() == "done":
+                self.done.append(found_task)   
             
 
     def clear_board(self):
@@ -226,7 +229,7 @@ if __name__ == '__main__':
     main()
     
     
-#Need to fix edit task method, move task method, and display board to csv method
+#Need to fix edit task method
 #Need to write file of tasks to uplaod
 #Make display prettier and more user friendly
 #Create a test script
