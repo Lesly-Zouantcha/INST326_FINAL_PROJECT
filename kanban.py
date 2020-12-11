@@ -65,7 +65,7 @@ class Kanban:
         self.in_progress = []
         self.done = []
         
-    def read_file(self, filename):
+        def read_file(self, filename):
         """reads tasks from a file, parses them  and adds them to kanban board
         Args:
           filename(str): name of file with tasks
@@ -75,11 +75,21 @@ class Kanban:
         """
         with open(filename,"r",encoding="utf-8") as f:
             for line in f:
-                elements = line.split(",").strip('')
+                elements = line.strip('\n').split(",")
+                print(elements)
                 task_id = elements[0]
-                description = elments[1]
-                due_date = elemenst[2] 
-        return tasks.append(Task(self, task_id, description, due_date))
+                description = elements[1]
+                due_date = elements[2]             
+                column=elements[3]
+
+
+                if column== "to do":
+                    self.to_do.append(Task(task_id, description, due_date))
+                if column== "in progress":
+                    self.in_progress.append(Task(task_id, description, due_date))
+                if column== "done":
+                    self.done.append(Task(task_id, description, due_date)) 
+
                       
         
     def add_work_item(self):
@@ -230,7 +240,6 @@ if __name__ == '__main__':
     
     
 #Need to fix edit task method
-#Need to write file of tasks to uplaod
 #Make display prettier and more user friendly
 #Create a test script
     
