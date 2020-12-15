@@ -1,5 +1,5 @@
 1,generate idea for project,12/10,done
 2,define methods,12/10,done
 3,create gui,12/10, in progress
-4,debug,12/10,in progress
+4,debug,12/11,in progress
 5,write docstrings,12/10,to do
