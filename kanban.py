@@ -65,7 +65,7 @@ class Kanban:
         self.in_progress = []
         self.done = []
         
-        def read_file(self, filename):
+    def read_file(self, filename):
         """reads tasks from a file, parses them  and adds them to kanban board
         Args:
           filename(str): name of file with tasks
@@ -103,9 +103,7 @@ class Kanban:
            self.to_do.append(i)
         return self.to_do
 
-    def colm_movements(self, task_id, move_to):    #NEED HELP. This method does not recognize what "task" is #fix docstrings 
-        #move_task_id, edit_movement
-        #task_id, move_to
+    def colm_movements(self, task_id, move_to):   
         """This method will move tasks from one comlumn to the other
         Args:
           task_id(int): id of task
@@ -178,7 +176,7 @@ class Kanban:
                      
 # USER INTERFACE
 def main():
-    """
+    """  ADD DOCSTRING
     """
     kanban = Kanban()
     print("Welcome to the kanban board! Lets begin!")
@@ -203,7 +201,7 @@ def main():
     
     user_input = str(input("What would you like to do next with your board? " 
                            "Options: edit task, move task, display board, "
-                           "display board to csv, clear board, done ")).lower()
+                           "clear board, done ")).lower()
 
     while user_input != 'done':
         if user_input == "edit task":
