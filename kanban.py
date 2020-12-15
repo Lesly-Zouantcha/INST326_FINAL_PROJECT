@@ -124,13 +124,13 @@ class Kanban:
             for task in self.in_progress:
                 if task.task_id == task_id:
                     found_task = task
-                    self.to_do.remove(found_task)
+                    self.in_progress.remove(found_task)
         
         if found_task == None: 
             for task in self.done:
                 if task.task_id == task_id:
                     found_task = task
-                    self.to_do.remove(found_task) 
+                    self.done.remove(found_task) 
 
                    
         if found_task != None:
