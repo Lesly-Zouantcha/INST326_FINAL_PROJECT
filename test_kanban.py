@@ -1,4 +1,4 @@
-from practice import Task, Kanban
+from kanban import Task, Kanban
 import pytest
 
 #test Task init method
