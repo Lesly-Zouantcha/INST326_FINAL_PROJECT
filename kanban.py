@@ -170,9 +170,11 @@ class Kanban():
             Print out Dictionary: keys will be backlog, to-do, in-progress, and done. The 
             tasks are the values in the dictionary where they are on the board.
         """
-        self.board = {"to do": self.to_do, "in progress": self.in_progress, "done": self.done}
+        col1 = {"to do": self.to_do}
+        col2={"in progress": self.in_progress} 
+        col3={"done": self.done}
         
-        print(self.board)
+        print(f"\n{col1}\n\n{col2}\n\n{col3}\n")
                      
 # USER INTERFACE
 def main():
@@ -200,8 +202,8 @@ def main():
     kanban.add_work_item(tasks)  
          
     user_input = str(input("What would you like to do next with your board? " 
-                           "Options: edit task, move task, display board, display "
-                            "board to csv, clear board, done ")).lower()
+                           "Options: edit task, move task, display board, "
+                            "clear board, done ")).lower()
 
     while user_input != 'done':
         if user_input == "edit task":
