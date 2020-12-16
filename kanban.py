@@ -28,10 +28,11 @@ class Task:
         Side Effects:
             Changes the input statement 
         """
-        self.task[task_id] = [new_description, new_due_date]
         self.description = new_description
         self.due_date = new_due_date
-        return self.task
+        self.task[task_id] = [self.description, self.due_date]
+        
+        return self.task  
                                   
     def __str__(self):
         """This returns the task 
@@ -43,7 +44,7 @@ class Task:
     def __repr__(self):
         return str(self)
     
-class Kanban:
+class Kanban():
     
     """ Takes in the users tasks and moves them through columns
     (to do, in progress, and done) depending at what stage they are in working
@@ -65,7 +66,7 @@ class Kanban:
         self.in_progress = []
         self.done = []
         
-    def read_file(self, filename):
+    def read_file(self, file_path):
         """reads tasks from a file, parses them  and adds them to kanban board
         Args:
           filename(str): name of file with tasks
@@ -73,10 +74,9 @@ class Kanban:
           Adds the task from a file into a list calls tasks
           Returns the list
         """
-        with open(filename,"r",encoding="utf-8") as f:
+        with open(file_path,"r",encoding="utf-8") as f:
             for line in f:
                 elements = line.strip('\n').split(",")
-                print(elements)
                 task_id = elements[0]
                 description = elements[1]
                 due_date = elements[2]             
@@ -88,22 +88,21 @@ class Kanban:
                 if column== "in progress":
                     self.in_progress.append(Task(task_id, description, due_date))
                 if column== "done":
-                    self.done.append(Task(task_id, description, due_date)) 
-
+                    self.done.append(Task(task_id, description, due_date))
                       
         
-    def add_work_item(self):
-        """This method will be for implementing the work items that will be 
-        required by a boss in the to do column
+    def add_work_item(self, task_list):
+        """This method will be for implementing the work items that will be r
+        equired by a boss in the to do column
         Side Effects:
            Adds content from the list of tasks into the to do column
            Returns the list
         """
-        for i in tasks:
+        for i in task_list:
            self.to_do.append(i)
         return self.to_do
 
-    def colm_movements(self, task_id, move_to):   
+    def colm_movements(self, task_id, move_to):    
         """This method will move tasks from one comlumn to the other
         Args:
           task_id(int): id of task
@@ -142,8 +141,9 @@ class Kanban:
                 self.in_progress.append(found_task)
             
             if move_to.lower() == "done":
-                self.done.append(found_task)        
-                
+                self.done.append(found_task)       
+
+            
 
     def clear_board(self):
         """This method will allow the users to completely clear the board when 
@@ -161,22 +161,22 @@ class Kanban:
         for i in self.done:
             self.done.remove(i)
             return self.done
+            
 
     def display_board(self):
         """Display the board in a dictionary with the key values “Backlog”, 
         “To-do”, “ “In Progress”, and “Done””
         Side Effects: 
-            Print out Dictionary: keys will be backlog, to-do, in-progress, and done. 
-            The tasks are the values in the dictionary where they are on the board.
+            Print out Dictionary: keys will be backlog, to-do, in-progress, and done. The 
+            tasks are the values in the dictionary where they are on the board.
         """
-        board = {"to do": self.to_do, "in progress": self.in_progress, "done": self.done}
+        self.board = {"to do": self.to_do, "in progress": self.in_progress, "done": self.done}
         
-        print(board)
-        
+        print(self.board)
                      
 # USER INTERFACE
 def main():
-    """  ADD DOCSTRING
+    """
     """
     kanban = Kanban()
     print("Welcome to the kanban board! Lets begin!")
@@ -185,59 +185,56 @@ def main():
                            "(If you want to add a task using a file enter 'file') ")).lower()
     
     if task_input == 'file':
-        user_filname = str(input("Enter the file name "))
-        Kanban.read_csv(user_filename)
+        user_filename = str(input("Enter the file filename "))
+        kanban.read_file(user_filename)
          
     tasks = []
     while task_input not in ["no", "file"]:
-        user_task_id = int(input("Enter the task id "))
+        user_task_id = str(input("Enter the task id "))
         user_description = str(input("Enter the task description "))
         user_due_date = str(input("Enter the task due date "))
         tasks.append(Task(user_task_id, user_description, user_due_date))
-        print(tasks)
+        print(f"Tasks: {tasks}")
         task_input = str(input("Do you have another task to add to your board? Yes or No ")).lower()
     
-    kanban.add_work_item(tasks)        
-    
+    kanban.add_work_item(tasks)  
+         
     user_input = str(input("What would you like to do next with your board? " 
-                           "Options: edit task, move task, display board, "
-                           "clear board, done ")).lower()
+                           "Options: edit task, move task, display board, display "
+                            "board to csv, clear board, done ")).lower()
 
     while user_input != 'done':
         if user_input == "edit task":
-            edit_task_id = int(input("Enter the task id you want to edit "))
+            edit_task_id = str(input("Enter the task id you want to edit "))
             edit_description = str(input("Enter your edited description "))
             edit_due_date = str(input("Enter your edited due date "))
-            Task(task_id_2, edit_description, edit_due_date).edit_task(task_id_2, edit_description, edit_due_date)
-            user_input = str(input("What would you like to do next with your board?"
-                                   "Options: edit task, move task, display board, "
-                                   "clear board, done ")).lower()
+            Task(edit_task_id, edit_description, edit_due_date).edit_task(edit_task_id, edit_description, edit_due_date)
+            user_input = str(input("What would you like to do next with your board? "
+                                   "Options: edit task, move task, display board, clear board, done ")).lower()
             
         elif user_input == "move task":
-            move_task_id = int(input("Enter the task id you want to move "))
+            move_task_id = str(input("Enter the task id you want to move "))
             edit_movement = str(input("Enter the column you want to move the task to "))
             kanban.colm_movements(move_task_id, edit_movement)
             user_input = str(input("What would you like to do next with your board? "
-                                    "Options: edit task, move task, display board, "
-                                    "clear board, done ")).lower()
+                                    "Options: edit task, move task, display board, clear board, done ")).lower()
             
         elif user_input == "display board":
             kanban.display_board()
-            user_input = str(input("What would you like to do next with your board? "
-                                   "Options: edit task, move task, display board, "
-                                   "clear board, done ")).lower()
+            user_input = str(input("What would you like to do next with your board? " 
+                                "Options: edit task, move task, display board, clear board, done ")).lower()
+            
             
         elif user_input == "clear board":
             kanban.clear_board()   
-            user_input = str(input("What would you like to do next with your board? "
-                                   "Options: edit task, move task, display board,"
-                                   " clear board, done ")).lower()
+            user_input = str(input("What would you like to do next with your board? Options: "
+                 "edit task, move task, display board, clear board, done ")).lower()
   
 if __name__ == '__main__':
     main()
     
     
+    
 #Need to fix edit task method
-#Make display prettier and more user friendly
-#Create a test script
+
     
