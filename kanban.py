@@ -1,6 +1,4 @@
 # Lesly Zouantcha, Evan English, Joey Epstein, Ben Lam
-              
-import csv
                          
 class Task:
     """Takes in users tasks and gets the id, decription and due date of it
@@ -151,17 +149,11 @@ class Kanban():
         Side Effects:
             Deletes every task in every column of the kanban board
         """
-        
-        for i in self.to_do:
-            self.to_do.remove(i)
-            return self.to_do
-        for i in self.in_progress:
-            self.in_progress.remove(i)
-            return self.in_progress
-        for i in self.done:
-            self.done.remove(i)
-            return self.done
-            
+        self.to_do.clear()
+        self.in_progress.clear()
+        self.done.clear()
+        return self.done, self.in_progress, self.to_do
+                   
 
     def display_board(self):
         """Display the board in a dictionary with the key values “Backlog”, 
@@ -192,33 +184,32 @@ def main():
     kanban = Kanban()
     print("Welcome to the kanban board! Lets begin!")
 
-    task_input = str(input("Do you have a task to add to your board? Yes or No. "
+    task_input = str(input("Do you have a task to add to your board? Yes or No: "
                            "(If you want to add a task using a file enter 'file') ")).lower()
     
     if task_input == 'file':
-        user_filename = str(input("Enter the file filename "))
+        user_filename = str(input("Enter the file's filename: "))
         kanban.read_file(user_filename)
          
     tasks = []
     while task_input not in ["no", "file"]:
-        user_task_id = str(input("Enter the task id "))
-        user_description = str(input("Enter the task description "))
-        user_due_date = str(input("Enter the task due date "))
+        user_task_id = str(input("Enter the task id: "))
+        user_description = str(input("Enter the task description: "))
+        user_due_date = str(input("Enter the task due date: "))
         tasks.append(Task(user_task_id, user_description, user_due_date))
         print(f"Tasks: {tasks}")
-        task_input = str(input("Do you have another task to add to your board? Yes or No ")).lower()
+        task_input = str(input("Do you have another task to add to your board? Yes or No: ")).lower()
     
     kanban.add_work_item(tasks)  
          
     user_input = str(input("What would you like to do next with your board? " 
-                           "Options: edit task, move task, display board, "
-                            "clear board, done ")).lower()
+                           "Options: Edit Task, Move Task, Display Board, Clear board, Done: ")).lower()
 
     while user_input != 'done':
         if user_input == "edit task":
-            edit_task_id = str(input("Enter the task id you want to edit "))
-            edit_description = str(input("Enter your edited description "))
-            edit_due_date = str(input("Enter your edited due date "))
+            edit_task_id = str(input("Enter the task id you want to edit: "))
+            edit_description = str(input("Enter your edited description: "))
+            edit_due_date = str(input("Enter your edited due date: "))
             for i in kanban.to_do:
                 if i.task_id == edit_task_id:
                     i.edit_task(edit_task_id, edit_description, edit_due_date)
@@ -229,25 +220,25 @@ def main():
                 if i.task_id == edit_task_id:
                     i.edit_task(edit_task_id, edit_description, edit_due_date)
             user_input = str(input("What would you like to do next with your board? "
-                                   "Options: edit task, move task, display board, clear board, done ")).lower()
+                                   "Options: Edit Task, Move task, Display Board, Clear Board, Done: ")).lower()
             
         elif user_input == "move task":
-            move_task_id = str(input("Enter the task id you want to move "))
-            edit_movement = str(input("Enter the column you want to move the task to "))
+            move_task_id = str(input("Enter the task id you want to move: "))
+            edit_movement = str(input("Enter the column you want to move the task to: "))
             kanban.colm_movements(move_task_id, edit_movement)
             user_input = str(input("What would you like to do next with your board? "
-                                    "Options: edit task, move task, display board, clear board, done ")).lower()
+                                    "Options: Edit Task, Move task, Display Board, Clear Board, Done: ")).lower()
             
         elif user_input == "display board":
             kanban.display_board()
             user_input = str(input("What would you like to do next with your board? " 
-                                "Options: edit task, move task, display board, clear board, done ")).lower()
+                                "Options: Edit Task, Move task, Display Board, Clear Board, Done: ")).lower()
             
             
         elif user_input == "clear board":
             kanban.clear_board()   
-            user_input = str(input("What would you like to do next with your board? Options: "
-                 "edit task, move task, display board, clear board, done ")).lower()
+            user_input = str(input("What would you like to do next with your board? " 
+                                   "Options: Edit Task, Move task, Display Board, Clear Board, Done: ")).lower()
   
 if __name__ == '__main__':
     main()
