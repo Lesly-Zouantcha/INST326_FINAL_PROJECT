@@ -115,7 +115,17 @@ def test_edit_task():
 def test_clear_board():
     """ Test the clear_board() method of the Kanban class. """
     kanBan = Kanban()
-    kanBan.clear_board()
-    assert len(kanBan.to_do) == 0  
-    assert len(kanBan.in_progress) == 0  
-    assert len(kanBan.done) == 0  
+    kanBan.to_do = [(Task(6, 'code', "1/7"))]
+    kanBan.in_progress = [(Task(7, 'edit', "1/7"))]
+    kanBan.done =  [(Task(8, 'cook', "1/7"))]
+    
+    for i in kanBan.to_do:
+        kanBan.clear_board()
+    for i in kanBan.in_progress:
+        kanBan.clear_board()
+    for i in kanBan.done:
+        kanBan.clear_board()
+    
+    assert len(kanBan.to_do) == 0 
+    assert len(kanBan.in_progress) == 0
+    assert len(kanBan.done) == 0

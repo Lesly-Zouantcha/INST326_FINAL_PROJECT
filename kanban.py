@@ -178,7 +178,16 @@ class Kanban():
                      
 # USER INTERFACE
 def main():
-    """
+    """This function gets the information for the tasks and is the user interface
+    for the kanban board. It contains user input statements that allows them to 
+    insert information for the move tasks, edit tasks, display board, and clear board methods.
+    
+    -Prints out the board (to do, in progress, and done list)
+    
+    Side Effects:
+      -Modifies task object
+      -Modifies to do, in progress, and done lists
+      -Deletes all items in to do, in progress and done list
     """
     kanban = Kanban()
     print("Welcome to the kanban board! Lets begin!")
