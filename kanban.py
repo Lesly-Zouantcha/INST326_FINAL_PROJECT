@@ -213,6 +213,12 @@ def main():
             for i in kanban.to_do:
                 if i.task_id == edit_task_id:
                     i.edit_task(edit_task_id, edit_description, edit_due_date)
+            for i in kanban.in_progress:
+                if i.task_id == edit_task_id:
+                    i.edit_task(edit_task_id, edit_description, edit_due_date)
+            for i in kanban.done:
+                if i.task_id == edit_task_id:
+                    i.edit_task(edit_task_id, edit_description, edit_due_date)
             user_input = str(input("What would you like to do next with your board? "
                                    "Options: edit task, move task, display board, clear board, done ")).lower()
             
