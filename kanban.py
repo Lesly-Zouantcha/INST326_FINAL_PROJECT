@@ -31,7 +31,7 @@ class Task:
         self.description = new_description
         self.due_date = new_due_date
         self.task[task_id] = [self.description, self.due_date]
-        
+        print(self.task)
         return self.task  
                                   
     def __str__(self):
@@ -210,7 +210,9 @@ def main():
             edit_task_id = str(input("Enter the task id you want to edit "))
             edit_description = str(input("Enter your edited description "))
             edit_due_date = str(input("Enter your edited due date "))
-            Task(edit_task_id, edit_description, edit_due_date).edit_task(edit_task_id, edit_description, edit_due_date)
+            for i in kanban.to_do:
+                if i.task_id == edit_task_id:
+                    i.edit_task(edit_task_id, edit_description, edit_due_date)
             user_input = str(input("What would you like to do next with your board? "
                                    "Options: edit task, move task, display board, clear board, done ")).lower()
             
@@ -237,6 +239,6 @@ if __name__ == '__main__':
     
     
     
-#Need to fix edit task method
+
 
     
